@@ -1,13 +1,25 @@
-import javax.swing.*;
-import java.awt.event.*;
-import java.io.*;
-import java.util.*;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 public class GUI {
 	// Main Frame
 	JFrame frame;
-	// Menu BAr
+	// Menu Bar
 	JMenuBar MenuBar;
 	// Menu on menu bar
 	JMenu File;
@@ -23,7 +35,7 @@ public class GUI {
 	JList usrsList;
 	// Manage contacts
 	DefaultListModel contactListModel;
-	// scroll for all thre boxes
+	// scroll for all the boxes
 	JScrollPane chatWindowPane, typeWindowPane, contactPane;
 	// calculate dimensions
 	Dimension dim;
