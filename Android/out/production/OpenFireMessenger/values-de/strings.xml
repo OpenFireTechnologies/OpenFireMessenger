@@ -1,0 +1,53 @@
+<resources>
+
+    <!-- ActionBar -->
+    <string name="contacts">Kontakte</string>
+    <string name="agreement">Ich akzeptiere die Lizenzvereinbarung.</string>
+    <string name="app_name">OpenFireMessenger</string>
+    <string name="autologin">Speichere Logindaten</string>
+    <string name="email">Email</string>
+    <string name="exit">Beenden</string>
+    <string name="password">Passwort</string>
+    <string name="passwordconfirm">Passwort bestätigen</string>
+    <string name="username">Benutzername</string>
+    <string name="changelog">Änderungen</string>
+    <string name="changelogcontent">Version 0.0.3.0 BETA:\n\n*)ActionBarSherlock\n*)HoloEverywhere</string>
+    <string name="usernew">Neuer Benutzer?</string>
+    <string name="createaccount">Account erstellen</string>
+    <string name="useralready">Bereits registriert?</string>
+    <string name="prefs">Einstellungen</string>
+    <string name="accountadd">Kontakt hinzufügen</string>
+    <string name="right">Rechts</string>
+    <string name="left">Links</string>
+
+    <!-- Preferences Start -->
+    <!-- DUMMY -->
+    <string name="prefs_title_"></string>
+    <string name="prefs_summary_"></string>
+    <string name="prefs_cat_"></string>
+    <!-- Categories -->
+    <string name="prefs_cat_general">Allgemein</string>
+    <string name="prefs_cat_general_appearance">Aussehen</string>
+    <string name="prefs_cat_chatsettings">Chat Einstellungen</string>
+    <string name="prefs_cat_chatappearance">Aussehen</string>
+    <string name="prefs_cat_chatcolor">Nachrichten Farbe</string>
+    <string name="prefs_cat_extra">Extras</string>
+    <string name="prefs_cat_notifications">Benachrichtigungen</string>
+    <string name="prefs_title_changelog">Zeige Versionsänderungen</string>
+    <string name="prefs_summary_changelog">Zeige \'Was ist neu?\', wenn die App aktualisiert
+        wurde.</string>
+    <string name="prefs_title_update">Automatische Aktualisierungen</string>
+    <string name="prefs_summary_update">Überprüfe automatisch für neue Versionen.</string>
+    <string name="prefs_title_chatfonts">Schriftart</string>
+    <string name="prefs_summary_chatfonts">Wähle die Schriftart der Nachrichten.\n(n) ist eine normale, (b) ist eine dicke, (l) ist eine dünne Schriftart.\nBedarf möglicherweise einen Neustart der Anwendung!</string>
+    <string name="prefs_title_notifysound">Töne</string>
+    <string name="prefs_summary_notifysound">Spiele einen Ton bei neuer Nachricht.</string>
+    <string name="prefs_title_notifyvibration">Vibration</string>
+    <string name="prefs_summary_notifyvibration">Vibriere bei neuer Nachricht.</string>
+    <string name="prefs_title_notifywakelock">Wakelock</string>
+    <string name="prefs_summary_notifywakelock">Schalte Bildschirm ein bei neuer Nachricht.</string>
+    <string name="prefs_title_general_animation">Zeige Animationen</string>
+
+    <!-- Preferences End -->
+
+</resources>

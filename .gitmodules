@@ -1,0 +1,3 @@
+[submodule "Android/holoeverywhere"]
+	path = Android/holoeverywhere
+	url = https://github.com/Prototik/HoloEverywhere.git

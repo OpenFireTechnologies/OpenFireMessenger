@@ -1,4 +1,22 @@
 #################
+## Android Studio
+#################
+.idea/
+Android/.idea/
+Android/OpenFireMessenger/.idea/
+Android/OpenFireMessenger/out/
+Android/OpenFireMessenger/gen/
+Android/OpenFireMessenger/.settings/
+Android/OpenFireMessenger/.classpath
+Android/OpenFireMessenger/.project
+Android/OpenFireMessenger/proguard_logs/
+
+#################
+## Java Stuff
+#################
+Java/Client/*.class
+
+#################
 ## Eclipse
 #################
 

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="EasterEgg" severity="informational" />
+    <issue id="FieldGetter" severity="informational" />
+    <issue id="UnusedIds" severity="informational" />
+</lint>

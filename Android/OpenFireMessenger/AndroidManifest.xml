@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?><!-- ~ Copyright (c) 2013. Alexander Martinz. -->
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="net.openfiresecurity.messenger"
+    android:versionCode="31"
+    android:versionName="0.0.3.1">
+
+    <uses-sdk
+        android:minSdkVersion="10"
+        android:targetSdkVersion="18" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- Network State Permissions to detect Internet status -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- GCM requires a Google account. -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+
+    <!-- Keeps the processor from sleeping when a message is received. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- Creates a custom permission so only this app can receive its messages. -->
+    <permission
+        android:name="net.openfiresecurity.messenger.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="net.openfiresecurity.messenger.permission.C2D_MESSAGE" />
+
+    <!-- This app has permission to register and receive data message. -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <!-- Permission to vibrate -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:name="org.holoeverywhere.app.Application"
+        android:allowBackup="true"
+        android:configChanges="orientation|keyboardHidden|screenSize"
+        android:hardwareAccelerated="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:persistent="true"
+        android:screenOrientation="portrait"
+        android:theme="@style/Holo.Theme"
+        android:windowSoftInputMode="stateUnchanged">
+        <activity
+            android:name="net.openfiresecurity.messenger.Splash"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="net.openfiresecurity.data.Preferences" />
+        <activity
+            android:name="MainView"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity android:name="net.openfiresecurity.auth.AuthenticatorActivity" />
+        <activity android:name="net.openfiresecurity.auth.SignUpActivity" />
+        <activity android:name="AddContact" />
+
+        <service android:name="net.openfiresecurity.messenger.GCMIntentService" />
+        <service android:name="net.openfiresecurity.auth.AuthenticatationService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"></action>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator"></meta-data>
+        </service>
+        <service android:name="MainService" />
+
+        <receiver android:name="net.openfiresecurity.receivers.MessageReceiver">
+            <intent-filter>
+                <action android:name="net.openfiresecurity.messenger.DISPLAY_MESSAGE" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="net.openfiresecurity.receivers.BootupReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.google.android.gcm.GCMBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+
+                <!-- Receives the actual messages. -->
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <!-- Receives the registration id. -->
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="net.openfiresecurity.messenger" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

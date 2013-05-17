@@ -1,0 +1,51 @@
+/*
+ * Copyright (c) 2013. Alexander Martinz.
+ */
+
+buildscript {
+    repositories {
+        maven {
+            url 'https://github.com/Goddchen/mvn-repo/raw/master/'
+        }
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.5.+'
+    }
+}
+apply plugin: 'android'
+
+repositories {
+    maven {
+        url 'https://github.com/Goddchen/mvn-repo/raw/master/'
+    }
+    mavenCentral()
+}
+
+dependencies {
+    compile files('libs/gcm.jar', 'libs/gson-2.2.2.jar', 'libs/httpmime-4.2.5.jar')
+    compile "org.holoeverywhere:holoeverywhere:1.6.8"
+}
+
+android {
+    compileSdkVersion 18
+    buildToolsVersion "18.0.1"
+
+    defaultConfig {
+        minSdkVersion 10
+        targetSdkVersion 18
+    }
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+
+        instrumentTest.setRoot('tests')
+    }
+}
