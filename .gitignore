@@ -2,8 +2,13 @@
 ## Android Studio
 #################
 .idea/
-.out/
-.gen/
+Android/.idea/
+Android/OpenFireMessenger/.idea/
+Android/OpenFireMessenger/out/
+Android/OpenFireMessenger/gen/
+Android/OpenFireMessenger/.settings/
+Android/OpenFireMessenger/.classpath
+Android/OpenFireMessenger/.project
 
 
 
