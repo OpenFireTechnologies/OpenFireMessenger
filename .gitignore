@@ -10,7 +10,10 @@ Android/OpenFireMessenger/.settings/
 Android/OpenFireMessenger/.classpath
 Android/OpenFireMessenger/.project
 
-
+#################
+## Java Stuff
+#################
+Java/Client/*.class
 
 #################
 ## Eclipse
