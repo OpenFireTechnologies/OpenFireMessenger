@@ -3,6 +3,7 @@ import javax.swing.event.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
+import java.text.*;
 import java.awt.*;
 public class GUI{
         //Main Frame
@@ -14,7 +15,7 @@ public class GUI{
         //Menu item under the menu
         JMenuItem exit;
         //Labels for naming the boxes and copyright tag
-	JLabel chatLabel,contactLabel,copyRightLabel,profilePic;
+	JLabel chatLabel,contactLabel,profilePic;
         //upload and send buttons
 	JButton sendButton,uploadButton;
         //chat windows and the users type in box
@@ -33,9 +34,16 @@ public class GUI{
         File current_path = new File (".");
         //present working directory is stored here
         String pwd="";
+        Calendar cal = Calendar.getInstance();
+        String calandr=cal.getTime().toString();
+        String trim="";
+        String message="";
+        String selected="Chat Box";
+        String date=calandr.substring(0,calandr.lastIndexOf(":")-9)+" "+calandr.substring(calandr.length()-4,calandr.length());
+        BreakIterator bi = BreakIterator.getWordInstance();
 
-             GUI()
-             {
+        GUI()
+        {
                 try{
                 pwd=current_path.getCanonicalPath();
                 }catch(Exception x){}
@@ -46,25 +54,27 @@ public class GUI{
 		frame.setLayout(null);
                 //profile picture
                 profilePic=new JLabel();
-                profilePic.setBounds(85,5,48,48);
+                profilePic.setBounds(10,5,48,48);
                 frame.add(profilePic);
 
                 //Chat label
-                chatLabel=new JLabel("Chat Area");
+                chatLabel=new JLabel(selected);
 		chatLabel.setFont(new Font("Times New Roman",Font.BOLD,20));
-		chatLabel.setBounds(125,15,200,30);
+		chatLabel.setBounds(50,15,200,30);
 		frame.add(chatLabel);
 
                 //Contact label
 		contactLabel=new JLabel("Contacts");
 		contactLabel.setFont(new Font("Times New Roman",Font.BOLD,20));
-		contactLabel.setBounds(390,15,200,30);
+                contactLabel.setIcon(new ImageIcon(pwd+"/icons/onlineS.png"));
+		contactLabel.setBounds(370,15,200,30);
 		frame.add(contactLabel);
 
                 //Main chat display box
 		chatWindow=new JTextArea();
-		chatWindow.setFont(new Font("Times New Roman",Font.BOLD,20));
+		chatWindow.setFont(new Font("Times New Roman",Font.BOLD,15));
 		chatWindowPane=new JScrollPane(chatWindow);
+                chatWindowPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		chatWindowPane.setBounds(10,50,350,300);
                 chatWindow.setEditable(false);
 		frame.add(chatWindowPane);
@@ -74,6 +84,25 @@ public class GUI{
                 typeWindow.setSize(20,10);
 		typeWindowPane=new JScrollPane(typeWindow);
 		typeWindowPane.setBounds(10,380,350,55);
+                typeWindow.addKeyListener(new KeyAdapter() {
+                public void keyPressed(KeyEvent k) {
+                if(k.getKeyChar() == KeyEvent.VK_ENTER) {
+                if(k.isShiftDown()) {
+                   typeWindow.append(" \n");
+                } else {
+                   if(selected!="Chat Box")
+                   {
+                      raw_msg(typeWindow.getText());
+                      typeWindow.setText(null);
+                   }
+                   else
+                   {
+                      JOptionPane.showMessageDialog (null, "Contact not slected", "Team OpenFire Messenger", JOptionPane.WARNING_MESSAGE);
+                   }
+                }
+                }
+                }
+                });
 		frame.add(typeWindowPane);
 
                 //Send button			
@@ -91,41 +120,36 @@ public class GUI{
                 //Contact display box
 		contactListModel=new DefaultListModel();
 		usrsList=new JList(contactListModel);
-		usrsList.setFont(new Font("Times New Roman",Font.BOLD,20));
+                usrsList.setComponentOrientation( ComponentOrientation.RIGHT_TO_LEFT);
+		usrsList.setFont(new Font("Times New Roman",Font.BOLD,15));
                 try{
                 contacts();
                 }catch(Exception e){}
                 for(int i=0;i<_contacts.size();i++)
                 {
-                  contactListModel.addElement(_contacts.get(i));
+                  contactListModel.addElement(_contacts.get(i)+" ");
                 }
 		contactPane=new JScrollPane(usrsList);
-		contactPane.setBounds(370,50,130,300);
+		contactPane.setBounds(370,50,140,300);
                 usrsList.addListSelectionListener(new ListSelectionListener() {
                 
                 //contact selection
                 public void valueChanged(ListSelectionEvent arg0) {
                 if (!arg0.getValueIsAdjusting()) {
                    profilePic.setIcon(new ImageIcon(pwd+"/contacts/pic.jpg"));
-                   chatLabel.setIcon(new ImageIcon(pwd+"/icons/onlineS.png"));
-                   chatLabel.setText(usrsList.getSelectedValue().toString());
+                   selected=usrsList.getSelectedValue().toString();
+                   chatLabel.setText(selected);
                    }
                 }
                 });
 		frame.add(contactPane);
-
-                //Copyright label
-		copyRightLabel=new JLabel("copyright (c) @drakula941");
-		copyRightLabel.setBounds(150,430,250,50);
-		copyRightLabel.setFont(new Font("Times New Roman",Font.BOLD,20));
-		frame.add(copyRightLabel);
 
                 //Menubar setup
                 File.add(exit);
                 MenuBar.add(File);
                 frame.setJMenuBar(MenuBar);
 
-		frame.setSize(520,520);
+		frame.setSize(520,510);
                 //dimension calculation to display frame at the centre of screen
                 dim = Toolkit.getDefaultToolkit().getScreenSize();
                 frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
@@ -142,19 +166,44 @@ public class GUI{
                 //Action listener to send button
                 sendButton.addActionListener(new ActionListener() { 
                 public void actionPerformed(ActionEvent e) { 
-                JOptionPane.showMessageDialog (null, "SEND", "Team OpenFire Messanger", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog (null, "SEND", "Team OpenFire Messenger", JOptionPane.WARNING_MESSAGE);
                 } 
                 } );
 
                 //Action listener to upload button
                 uploadButton.addActionListener(new ActionListener() { 
                 public void actionPerformed(ActionEvent e) { 
-                JOptionPane.showMessageDialog (null, "UPLOAD", "Team OpenFire Messanger", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog (null, "UPLOAD", "Team OpenFire Messenger", JOptionPane.WARNING_MESSAGE);
                 } 
                 } );
 
+        }
+        public String raw_msg(String raw_msg)
+        {
+          String msg=raw_msg;
+          bi.setText(raw_msg);
+          if(raw_msg.length()>25)
+            {
+              int preceding = bi.following(25);
+              msg=raw_msg.substring(0, preceding);
+              chatWindow.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+              chatWindow.append(msg.trim()+" "+calandr.substring(calandr.lastIndexOf(":")-5,calandr.lastIndexOf(":"))+"\n");
+              raw_msg=message(raw_msg.trim(),msg.length());
+            }
+          else
+            { 
+              chatWindow.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+              chatWindow.append(msg.trim()+" "+calandr.substring(calandr.lastIndexOf(":")-5,calandr.lastIndexOf(":"))+"\n\n");
+            }    
+            return raw_msg;
+        }
 
-         }
+        public String message(String message_edit,int edit)
+        {
+          trim=message_edit.substring(edit,message_edit.length()); 
+          return raw_msg(trim);     
+        }
+
         //taking contact input
         public void contacts()throws Exception
         {
