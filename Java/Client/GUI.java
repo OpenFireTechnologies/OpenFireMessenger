@@ -22,7 +22,8 @@ public class GUI {
 	// chat windows and the users type in box
 	JTextArea chatWindow, typeWindow;
 	// List of contacts
-	JList<DefaultListModel<String>> usrsList;
+	@SuppressWarnings("rawtypes")
+	JList usrsList;
 	// Manage contacts
 	DefaultListModel<String> contactListModel;
 	// scroll for all thre boxes
