@@ -1,10 +1,34 @@
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.event.*;
-import java.io.*;
-import java.util.*;
-import java.text.*;
-import java.awt.*;
+import java.awt.ComponentOrientation;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.text.BreakIterator;
+import java.util.ArrayList;
+import java.util.Calendar;
+
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class GUI {
 	// Main Frame
@@ -17,8 +41,8 @@ public class GUI {
 	JMenuItem exit;
 	// Labels for naming the boxes and copyright tag
 	JLabel chatLabel, contactLabel, profilePic;
-	// upload and send buttons
-	JButton sendButton, uploadButton;
+	// get and send buttons, get for Debugging
+	JButton sendButton, getButton;
 	// chat windows and the users type in box
 	JTextArea chatWindow, typeWindow;
 	// List of contacts
@@ -36,8 +60,7 @@ public class GUI {
 	File current_path = new File(".");
 	// present working directory is stored here
 	String pwd = "";
-	Calendar cal = Calendar.getInstance();
-	String calandr = cal.getTime().toString();
+	String calandr = Calendar.getInstance().getTime().toString();
 	String trim = "";
 	String message = "";
 	String selected = "Chat Box";
@@ -79,9 +102,11 @@ public class GUI {
 		chatWindow.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		chatWindowPane = new JScrollPane(chatWindow);
 		chatWindowPane
-				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		chatWindowPane.setBounds(10, 50, 350, 300);
 		chatWindow.setEditable(false);
+		// Dummy Message
+		chatWindow.setText("Chat initiated at: " + calandr + "\n\n");
 		frame.add(chatWindowPane);
 
 		// User area to type
@@ -90,6 +115,7 @@ public class GUI {
 		typeWindowPane = new JScrollPane(typeWindow);
 		typeWindowPane.setBounds(10, 380, 350, 55);
 		typeWindow.addKeyListener(new KeyAdapter() {
+			@Override
 			public void keyPressed(KeyEvent k) {
 				if (k.getKeyChar() == KeyEvent.VK_ENTER) {
 					if (k.isShiftDown()) {
@@ -117,10 +143,10 @@ public class GUI {
 		frame.add(sendButton);
 
 		// Upload button
-		uploadButton = new JButton("UPLOAD");
-		uploadButton.setBounds(395, 410, 80, 25);
-		uploadButton.setFont(new Font("Times New Roman", Font.BOLD, 10));
-		frame.add(uploadButton);
+		getButton = new JButton("GET");
+		getButton.setBounds(395, 410, 80, 25);
+		getButton.setFont(new Font("Times New Roman", Font.BOLD, 10));
+		frame.add(getButton);
 
 		// Contact display box
 		contactListModel = new DefaultListModel<String>();
@@ -139,6 +165,7 @@ public class GUI {
 		usrsList.addListSelectionListener(new ListSelectionListener() {
 
 			// contact selection
+			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
 				if (!arg0.getValueIsAdjusting()) {
 					profilePic
@@ -158,13 +185,14 @@ public class GUI {
 		frame.setSize(520, 510);
 		// dimension calculation to display frame at the centre of screen
 		dim = Toolkit.getDefaultToolkit().getScreenSize();
-		frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height
-				/ 2 - frame.getSize().height / 2);
+		frame.setLocation((dim.width / 2) - (frame.getSize().width / 2),
+				(dim.height / 2) - (frame.getSize().height / 2));
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Action listener to menu item
 		exit.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
@@ -172,17 +200,24 @@ public class GUI {
 
 		// Action listener to send button
 		sendButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "SEND",
-						"Team OpenFire Messenger", JOptionPane.WARNING_MESSAGE);
+
+				new Sender("http://localhost/exchanger.php", true,
+						"from=123&to=321&content=" + typeWindow.getText(),
+						GUI.this).run();
+				// TODO Display Sent Message in Chat Window as well
+				// Temporary just adding content of the text area
+				chatWindow.append(typeWindow.getText() + "\n");
 			}
 		});
 
 		// Action listener to upload button
-		uploadButton.addActionListener(new ActionListener() {
+		getButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "UPLOAD",
-						"Team OpenFire Messenger", JOptionPane.WARNING_MESSAGE);
+				new Sender("http://localhost/exchanger.php", true,
+						"from=123&to=321", GUI.this).run();
 			}
 		});
 
@@ -217,7 +252,9 @@ public class GUI {
 		return raw_msg(trim);
 	}
 
-	// taking contact input
+	/**
+	 * Reads the Contacts from /contacts/contacts.tof
+	 */
 	public void contacts() throws Exception {
 		String name = "";
 		pwd = current_path.getCanonicalPath();
@@ -232,7 +269,16 @@ public class GUI {
 
 	public static void main(String[] arg) {
 		new GUI();
+	}
 
+	/**
+	 * Adds the Result to the Chat Window
+	 * 
+	 * @result The text, which should get added to the Chat Window
+	 */
+	public void getResult(String result) {
+		result = result.replace("<br>", "\n");
+		chatWindow.append(result);
 	}
 
 }
