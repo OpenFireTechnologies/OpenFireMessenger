@@ -49,7 +49,7 @@ public class GUI {
 	@SuppressWarnings("rawtypes")
 	JList usrsList;
 	// Manage contacts
-	DefaultListModel<String> contactListModel;
+	DefaultListModel contactListModel;
 	// scroll for all three boxes
 	JScrollPane chatWindowPane, typeWindowPane, contactPane;
 	// calculate dimensions
@@ -62,6 +62,7 @@ public class GUI {
 	String pwd = "";
 	String calandr = Calendar.getInstance().getTime().toString();
 	String trim = "";
+        String user_name="drakula941";
 	String message = "";
 	String selected = "Chat Box";
 	String date = calandr.substring(0, calandr.lastIndexOf(":") - 9) + " "
@@ -87,7 +88,7 @@ public class GUI {
 		// Chat label
 		chatLabel = new JLabel(selected);
 		chatLabel.setFont(new Font("Times New Roman", Font.BOLD, 20));
-		chatLabel.setBounds(50, 15, 200, 30);
+		chatLabel.setBounds(140, 15, 200, 30);
 		frame.add(chatLabel);
 
 		// Contact label
@@ -106,7 +107,7 @@ public class GUI {
 		chatWindowPane.setBounds(10, 50, 350, 300);
 		chatWindow.setEditable(false);
 		// Dummy Message
-		chatWindow.setText("Chat initiated at: " + calandr + "\n\n");
+		chatWindow.setText("Chat initiated at: " + date + "\n\n");
 		frame.add(chatWindowPane);
 
 		// User area to type
@@ -122,6 +123,7 @@ public class GUI {
 						typeWindow.append(" \n");
 					} else {
 						if (selected != "Chat Box") {
+                                                        chatWindow.append(user_name+"\n");
 							raw_msg(typeWindow.getText());
 							typeWindow.setText(null);
 						} else {
@@ -149,7 +151,7 @@ public class GUI {
 		frame.add(getButton);
 
 		// Contact display box
-		contactListModel = new DefaultListModel<String>();
+		contactListModel = new DefaultListModel();
 		usrsList = new JList(contactListModel);
 		usrsList.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 		usrsList.setFont(new Font("Times New Roman", Font.BOLD, 15));
@@ -226,23 +228,15 @@ public class GUI {
 	public String raw_msg(String raw_msg) {
 		String msg = raw_msg;
 		bi.setText(raw_msg);
-		if (raw_msg.length() > 25) {
-			int preceding = bi.following(25);
+		if (raw_msg.length() > 40) {
+			int preceding = bi.following(45);
 			msg = raw_msg.substring(0, preceding);
-			chatWindow
-					.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-			chatWindow.append(msg.trim()
-					+ " "
-					+ calandr.substring(calandr.lastIndexOf(":") - 5,
-							calandr.lastIndexOf(":")) + "\n");
+			chatWindow.append(calandr.substring(calandr.lastIndexOf(":") - 5,
+							calandr.lastIndexOf(":")) + " " + msg.trim() + "\n");
 			raw_msg = message(raw_msg.trim(), msg.length());
 		} else {
-			chatWindow
-					.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-			chatWindow.append(msg.trim()
-					+ " "
-					+ calandr.substring(calandr.lastIndexOf(":") - 5,
-							calandr.lastIndexOf(":")) + "\n\n");
+			chatWindow.append(calandr.substring(calandr.lastIndexOf(":") - 5,
+							calandr.lastIndexOf(":")) + " " + msg.trim() + "\n\n");
 		}
 		return raw_msg;
 	}
