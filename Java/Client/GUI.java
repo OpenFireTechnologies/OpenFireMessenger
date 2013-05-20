@@ -50,7 +50,7 @@ public class GUI {
 	JList usrsList;
 	// Manage contacts
 	DefaultListModel<String> contactListModel;
-	// scroll for all thre boxes
+	// scroll for all three boxes
 	JScrollPane chatWindowPane, typeWindowPane, contactPane;
 	// calculate dimensions
 	Dimension dim;
