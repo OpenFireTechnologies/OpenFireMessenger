@@ -10,6 +10,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -64,7 +66,7 @@ public class GUI {
 	String trim = "";
         String user_name="drakula941";
 	String message = "";
-	String selected = "Chat Box";
+	String selected = user_name;
 	String date = calandr.substring(0, calandr.lastIndexOf(":") - 9) + " "
 			+ calandr.substring(calandr.length() - 4, calandr.length());
 	BreakIterator bi = BreakIterator.getWordInstance();
@@ -72,17 +74,16 @@ public class GUI {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	GUI() {
 		try {
-			pwd = current_path.getCanonicalPath();
-		} catch (Exception x) {
-		}
+		pwd = current_path.getCanonicalPath();
 		frame = new JFrame();
-		exit = new JMenuItem("Exit");
+		exit = new JMenuItem("Add contact");
 		MenuBar = new JMenuBar();
-		File = new JMenu("File");
+		File = new JMenu("Chat");
 		frame.setLayout(null);
 		// profile picture
 		profilePic = new JLabel();
 		profilePic.setBounds(10, 5, 48, 48);
+	        profilePic.setIcon(new ImageIcon(pwd + "/contacts/pic.jpg"));
 		frame.add(profilePic);
 
 		// Chat label
@@ -124,6 +125,7 @@ public class GUI {
 					} else {
 						if (selected != "Chat Box") {
                                                         chatWindow.append(user_name+"\n");
+                                                        chat_Out(user_name);
 							raw_msg(typeWindow.getText());
 							typeWindow.setText(null);
 						} else {
@@ -170,10 +172,10 @@ public class GUI {
 			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
 				if (!arg0.getValueIsAdjusting()) {
-					profilePic
-							.setIcon(new ImageIcon(pwd + "/contacts/pic.jpg"));
+					profilePic.setIcon(new ImageIcon(pwd + "/contacts/pic.jpg"));
 					selected = usrsList.getSelectedValue().toString();
 					chatLabel.setText(selected);
+                                        chat_in();
 				}
 			}
 		});
@@ -222,21 +224,23 @@ public class GUI {
 						"from=123&to=321", GUI.this).run();
 			}
 		});
-
+		} catch (Exception x) {}
 	}
 
 	public String raw_msg(String raw_msg) {
 		String msg = raw_msg;
 		bi.setText(raw_msg);
 		if (raw_msg.length() > 40) {
-			int preceding = bi.following(45);
+			int preceding = bi.following(40);
 			msg = raw_msg.substring(0, preceding);
 			chatWindow.append(calandr.substring(calandr.lastIndexOf(":") - 5,
 							calandr.lastIndexOf(":")) + " " + msg.trim() + "\n");
+                        chat_Out(msg);
 			raw_msg = message(raw_msg.trim(), msg.length());
 		} else {
 			chatWindow.append(calandr.substring(calandr.lastIndexOf(":") - 5,
 							calandr.lastIndexOf(":")) + " " + msg.trim() + "\n\n");
+                        chat_Out(msg+"\n");
 		}
 		return raw_msg;
 	}
@@ -260,6 +264,38 @@ public class GUI {
 		}
 		br.close();
 	}
+
+        public void chat_Out(String messg) {
+                try{
+                String msg_out=messg;
+                File fl=new File(pwd + "/chat/" + selected + ".tof");
+                FileOutputStream fos=new FileOutputStream(fl,true);
+                PrintStream ps=new PrintStream(fos);
+                if(msg_out.equals(selected)||msg_out.equals(user_name))
+                {
+                ps.println(msg_out.trim());
+                }
+                else
+                {
+                ps.println(calandr.substring(calandr.lastIndexOf(":") - 5,calandr.lastIndexOf(":")) + " " + msg_out.trim());
+                }
+                System.out.println(msg_out);
+                }catch(Exception z){} 
+                }
+
+        public void chat_in() {
+                try{
+                chatWindow.setText(null);
+                String msg_in="";
+                File fl=new File(pwd + "/chat/" + selected + ".tof");
+                FileInputStream fin=new FileInputStream(fl);
+		BufferedReader br = new BufferedReader(new InputStreamReader(fin));
+                while((msg_in= br.readLine()) != null)
+                {
+                chatWindow.append(msg_in+"\n");
+                }
+                }catch(Exception x){}
+                }
 
 	public static void main(String[] arg) {
 		new GUI();
