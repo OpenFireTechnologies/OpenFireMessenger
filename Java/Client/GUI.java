@@ -20,6 +20,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
@@ -34,13 +35,13 @@ import javax.swing.event.ListSelectionListener;
 
 public class GUI {
 	// Main Frame
-	JFrame frame;
+	JFrame frame,iframe;
 	// Menu BAr
 	JMenuBar MenuBar;
 	// Menu on menu bar
 	JMenu File;
 	// Menu item under the menu
-	JMenuItem exit;
+	JMenuItem exit,pref;
 	// Labels for naming the boxes and copyright tag
 	JLabel chatLabel, contactLabel, profilePic;
 	// get and send buttons, get for Debugging
@@ -62,21 +63,49 @@ public class GUI {
 	File current_path = new File(".");
 	// present working directory is stored here
 	String pwd = "";
+        //Calander information
 	String calandr = Calendar.getInstance().getTime().toString();
+        //temporary for triming message
 	String trim = "";
+        //User Name
         String user_name="drakula941";
 	String message = "";
+        //Selecting user
 	String selected = user_name;
+        //Date
 	String date = calandr.substring(0, calandr.lastIndexOf(":") - 9) + " "
 			+ calandr.substring(calandr.length() - 4, calandr.length());
 	BreakIterator bi = BreakIterator.getWordInstance();
+        //Set Preference font style
+        String FontStyle="";
+        //Set Preference font size
+	int FontSize=0;
+        //Drop boxes for font style and font size
+	JComboBox fontStyle,fontSize;
+        //Array for all available font styles
+	String []fontStyleArr={"DigifaceWide","Script MT Bold","Matura MT Script Capitals","Algerian","Times New Roman",
+        "Arial Black","Arial","Bradley Hand ITC"};
+        //Array for different font size
+	String []fontSizeArr={"10","12","14","16","18","20","22","24","26","28","30"};
+        File fl;
+        FileOutputStream fos;
+        PrintStream ps;
+        FileInputStream fin;
+	BufferedReader br;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	GUI() {
 		try {
 		pwd = current_path.getCanonicalPath();
+                fl=new File(pwd + "/preference/Font.tof");
+                fin=new FileInputStream(fl);
+		br = new BufferedReader(new InputStreamReader(fin));
+                FontStyle=br.readLine();
+                FontSize=Integer.parseInt(br.readLine());
+                System.out.println(FontSize+" "+FontStyle);
 		frame = new JFrame();
 		exit = new JMenuItem("Add contact");
+                pref = new JMenuItem("Preference");
 		MenuBar = new JMenuBar();
 		File = new JMenu("Chat");
 		frame.setLayout(null);
@@ -101,18 +130,19 @@ public class GUI {
 
 		// Main chat display box
 		chatWindow = new JTextArea();
-		chatWindow.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		chatWindow.setFont(new Font(FontStyle,Font.BOLD,FontSize));
 		chatWindowPane = new JScrollPane(chatWindow);
-		chatWindowPane
-				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		chatWindowPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		chatWindowPane.setBounds(10, 50, 350, 300);
 		chatWindow.setEditable(false);
+
 		// Dummy Message
 		chatWindow.setText("Chat initiated at: " + date + "\n\n");
 		frame.add(chatWindowPane);
 
 		// User area to type
 		typeWindow = new JTextArea();
+		typeWindow.setFont(new Font(FontStyle,Font.BOLD,FontSize));
 		typeWindow.setSize(20, 10);
 		typeWindowPane = new JScrollPane(typeWindow);
 		typeWindowPane.setBounds(10, 380, 350, 55);
@@ -123,7 +153,7 @@ public class GUI {
 					if (k.isShiftDown()) {
 						typeWindow.append(" \n");
 					} else {
-						if (selected != "Chat Box") {
+						if (selected != user_name) {
                                                         chatWindow.append(user_name+"\n");
                                                         chat_Out(user_name);
 							raw_msg(typeWindow.getText());
@@ -182,6 +212,7 @@ public class GUI {
 		frame.add(contactPane);
 
 		// Menubar setup
+                File.add(pref);
 		File.add(exit);
 		MenuBar.add(File);
 		frame.setJMenuBar(MenuBar);
@@ -194,11 +225,52 @@ public class GUI {
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		// Action listener to menu item
-		exit.addActionListener(new ActionListener() {
+		// Action listener to menu item 'Preference'
+		pref.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+                                fl=new File(pwd + "/preference/Font.tof");
+				iframe=new JFrame();
+		                iframe.setLayout(null);
+                                //font style box + its action listener
+                                fontStyle=new JComboBox(fontStyleArr);
+	                	fontStyle.setBounds(25,10,150,20);
+	                	iframe.add(fontStyle);
+			        fontStyle.addActionListener(new ActionListener(){
+                                public void actionPerformed(ActionEvent x){
+                                try{
+                                FontStyle=(String)fontStyle.getSelectedItem();
+				chatWindow.setFont(new Font(FontStyle,Font.BOLD,FontSize));
+				typeWindow.setFont(new Font(FontStyle,Font.BOLD,FontSize));
+                                fos=new FileOutputStream(fl);
+                                ps=new PrintStream(fos);
+                                ps.println(FontStyle);
+                                ps.println(FontSize);
+                                }catch(Exception q){}
+                                }});
+
+                                //font size box + its action listener
+		                fontSize=new JComboBox(fontSizeArr);
+		                fontSize.setBounds(25,40,150,20);
+                                iframe.add(fontSize);
+			        fontSize.addActionListener(new ActionListener(){
+                                public void actionPerformed(ActionEvent y){
+                                try{
+                                FontSize=Integer.parseInt((String)fontSize.getSelectedItem());
+				chatWindow.setFont(new Font(FontStyle,Font.BOLD,FontSize));
+				typeWindow.setFont(new Font(FontStyle,Font.BOLD,FontSize));
+                                fos=new FileOutputStream(fl);
+                                ps=new PrintStream(fos);
+                                ps.println(FontStyle);
+                                ps.println(FontSize);
+                                }catch(Exception q){}
+                                }});
+                                iframe.setSize(200,300);
+                  		// dimension calculation to display frame at the centre of screen
+		                dim = Toolkit.getDefaultToolkit().getScreenSize();
+                       		iframe.setLocation((dim.width / 2) - (iframe.getSize().width / 2),
+				(dim.height / 2) - (iframe.getSize().height / 2));
+	                	iframe.setVisible(true);
 			}
 		});
 
@@ -239,7 +311,7 @@ public class GUI {
 			raw_msg = message(raw_msg.trim(), msg.length());
 		} else {
 			chatWindow.append(calandr.substring(calandr.lastIndexOf(":") - 5,
-							calandr.lastIndexOf(":")) + " " + msg.trim() + "\n\n");
+							calandr.lastIndexOf(":")) + " " + msg.trim() + "\n");
                         chat_Out(msg+"\n");
 		}
 		return raw_msg;
@@ -256,9 +328,8 @@ public class GUI {
 	public void contacts() throws Exception {
 		String name = "";
 		pwd = current_path.getCanonicalPath();
-		FileInputStream fis = new FileInputStream(pwd
-				+ "/contacts/contacts.tof");
-		BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+		fin = new FileInputStream(pwd+ "/contacts/contacts.tof");
+		br = new BufferedReader(new InputStreamReader(fin));
 		while ((name = br.readLine()) != null) {
 			_contacts.add(name);
 		}
@@ -268,9 +339,9 @@ public class GUI {
         public void chat_Out(String messg) {
                 try{
                 String msg_out=messg;
-                File fl=new File(pwd + "/chat/" + selected + ".tof");
-                FileOutputStream fos=new FileOutputStream(fl,true);
-                PrintStream ps=new PrintStream(fos);
+                fl=new File(pwd + "/chat/" + selected + ".tof");
+                fos=new FileOutputStream(fl,true);
+                ps=new PrintStream(fos);
                 if(msg_out.equals(selected)||msg_out.equals(user_name))
                 {
                 ps.println(msg_out.trim());
@@ -287,9 +358,9 @@ public class GUI {
                 try{
                 chatWindow.setText(null);
                 String msg_in="";
-                File fl=new File(pwd + "/chat/" + selected + ".tof");
-                FileInputStream fin=new FileInputStream(fl);
-		BufferedReader br = new BufferedReader(new InputStreamReader(fin));
+                fl=new File(pwd + "/chat/" + selected + ".tof");
+                fin=new FileInputStream(fl);
+		br = new BufferedReader(new InputStreamReader(fin));
                 while((msg_in= br.readLine()) != null)
                 {
                 chatWindow.append(msg_in+"\n");
