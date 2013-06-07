@@ -12,12 +12,65 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Exit"
-            android:id="@+id/bExit" android:layout_alignParentBottom="true" android:layout_alignParentLeft="true"
+            android:id="@+id/bExit"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"/>
+
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Update"
-            android:id="@+id/bUpdate" android:layout_above="@+id/bExit" android:layout_alignParentLeft="true"
+            android:id="@+id/bUpdate"
+            android:layout_above="@+id/bExit"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Debug"
+            android:id="@+id/bDebug"
+            android:layout_above="@+id/bUpdate"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"/>
+
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etUserNameLogin"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:hint="Username"/>
+
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/etPasswordLogin"
+            android:layout_below="@+id/etUserNameLogin"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:hint="Password"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login!"
+            android:id="@+id/bMenuLogin"
+            android:layout_below="@+id/etPasswordLogin"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"/>
+
+    <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign Up!"
+            android:id="@+id/bMenuSignUp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"/>
 </RelativeLayout>

@@ -8,7 +8,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.DownloadManager.Request;
-import android.content.*;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,7 +21,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
 import net.openfiresecurity.helper.Constants;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,7 +32,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class Menu extends Activity implements View.OnClickListener {
 
-    private Button bExit, bUpdate;
+    private Button bExit, bUpdate, bDebug, bRegister, bLogin;
     private DownloadManager mgr;
     private Request req;
 
@@ -36,8 +42,14 @@ public class Menu extends Activity implements View.OnClickListener {
         mgr = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         bExit = (Button) findViewById(R.id.bExit);
         bUpdate = (Button) findViewById(R.id.bUpdate);
+        bDebug = (Button) findViewById(R.id.bDebug);
+        bRegister = (Button) findViewById(R.id.bMenuSignUp);
+        bLogin = (Button) findViewById(R.id.bMenuLogin);
         bExit.setOnClickListener(this);
         bUpdate.setOnClickListener(this);
+        bDebug.setOnClickListener(this);
+        bRegister.setOnClickListener(this);
+        bLogin.setOnClickListener(this);
 
         @NotNull BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override
@@ -64,6 +76,15 @@ public class Menu extends Activity implements View.OnClickListener {
             case R.id.bUpdate:
                 new CheckVersion(Menu.this).execute();
                 break;
+            case R.id.bDebug:
+                startActivity(new Intent(Menu.this, DEBUG.class));
+                break;
+            case R.id.bMenuSignUp:
+                //TODO Handle SignUp
+                break;
+            case R.id.bMenuLogin:
+                //TODO Handle Login
+                break;
         }
     }
 
@@ -71,12 +92,12 @@ public class Menu extends Activity implements View.OnClickListener {
         try {
             @NotNull String version = getVersionNumber();
             if (Integer.parseInt(version) < Integer.parseInt(result)) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                @NotNull AlertDialog.Builder dialog = new AlertDialog.Builder(this);
                 dialog.setTitle("Update Available!").setMessage("A new Update is available!\nUpdate now?");
                 dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String appname = Constants.fileName + result + ".apk";
+                        @NotNull String appname = Constants.fileName + result + ".apk";
                         req = new Request(Uri.parse(Constants.urls + appname));
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -94,7 +115,7 @@ public class Menu extends Activity implements View.OnClickListener {
                 });
                 dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onClick(@NotNull DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
                     }
                 });
