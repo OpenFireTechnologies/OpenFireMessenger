@@ -6,7 +6,9 @@ package net.openfiresecurity.messenger;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+
 import net.openfiresecurity.helper.Constants;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -22,6 +24,7 @@ import java.io.InputStreamReader;
 
 class CheckVersion extends AsyncTask<String, Void, String> {
 
+    @NotNull
     private final ProgressDialog dialog;
     private final Menu c;
 

@@ -1,4 +1,13 @@
 <?php
+//Sanitize Input
+function sanitize($input)
+{
+	$input = mysql_real_escape_string($input);
+	$output = htmlentities($input, ENT_QUOTES);
+	return $output;
+}
+
+//File Upload
 function uploadFile(){
 	$fileName = $_FILES['file']['name'];
 	$tmpName  = $_FILES['file']['tmp_name'];
@@ -20,6 +29,7 @@ function uploadFile(){
 	mysql_query($messages) or die(mysql_error());
 }
 
+//function to get the File Content
 function getFile($id, $sender, $receiver){
 	$query = "SELECT id, name, type, size, content FROM files WHERE file_from = '$sender' AND file_to = '$receiver' AND file_seen = '0' AND id='$id' LIMIT 1;";
 	$result = mysql_query($query) or die(mysql_error());
@@ -43,6 +53,7 @@ function getFile($id, $sender, $receiver){
 	}
 }
 
+//function to get the Name of the sent File
 function getName($id, $sender, $receiver){
 	$query = "SELECT name FROM files WHERE file_from = '$sender' AND file_to = '$receiver' AND file_seen = '0' AND id='$id' LIMIT 1;";
 	$result = mysql_query($query) or die(mysql_error());
@@ -53,6 +64,7 @@ function getName($id, $sender, $receiver){
 	}
 }
 
+//Stores sent Messages in Database to deliver to the Target User
 function sendMessage(){
 	$sender = $_POST['from'];
 	$receiver = $_POST['to'];
@@ -61,7 +73,8 @@ function sendMessage(){
 	mysql_query($messages) or die(mysql_error());
 }
 
-function getMessage(){
+//Returns unseen Messages or Files
+function getMessageOrFile(){
 	$sender = $_POST['from'];
 	$receiver = $_POST['to'];
 
@@ -80,7 +93,70 @@ function getMessage(){
 			mysql_query($update) or die(mysql_error());
 		}
 	}
+}
 
+//Returns TRUE if authenticated, FALSE if not
+function checkAuth()
+{
+	if(isset($_POST['username']) && isset($_POST['hash']))
+	{
+		$givenHash = sanitize($_POST['hash']);
+		$givenUser = sanitize($_POST['username']);
 
+		$query = "SELECT hash FROM users WHERE username LIKE '$givenUser' LIMIT 1;";
+		$result = mysql_query($query) or die(mysql_error());
+		if(mysql_num_rows($result) > 0)
+		{
+			$datas = mysql_fetch_array($result);
+			if(strcmp($datas['hash'], $givenHash) == 0)
+			{
+				return TRUE;
+			}
+		}
+	}
+	return FALSE;
+}
+
+//Returns TRUE, if the users have themselves in the contacts list, FALSE if not
+function checkContacts()
+{
+	if(isset($_POST['from']) && isset($_POST['to']))
+	{
+		$user1 = sanitize($_POST['from']);
+		$user2 = sanitize($_POST['to']);
+
+		$que = mysql_query("SELECT id FROM contacts ORDER BY id DESC LIMIT 1");
+		if(mysql_num_rows($que) > 0)
+		{
+			$datas = mysql_fetch_array($que);
+			$maxID = $datas['id'];
+		}
+
+		for($id = 0; $id <= $maxID; $id++)
+		{
+			$query1 = "SELECT user2 FROM contacts WHERE user1 LIKE '$user1' AND id LIKE '$id';";
+			$result1 = mysql_query($query1) or die(mysql_error());
+			if(mysql_num_rows($result1) > 0)
+			{
+				$datas = mysql_fetch_array($result1);
+				// if user1 has user2 in his list
+				if(!strcmp($datas['user2'], $user2))
+				{
+					$query1 = "SELECT user1 FROM contacts WHERE user2 LIKE '$user1' AND id LIKE '$id';";
+					$result1 = mysql_query($query1) or die(mysql_error());
+					if(mysql_num_rows($result1) > 0)
+					{
+						$datas = mysql_fetch_array($result1);
+						// if user2 has user1 in his list
+						if(!strcmp($datas['user1'], $user2))
+						{
+							return TRUE;
+						}
+					}
+				}
+			}
+		}
+		return FALSE;
+	}
 }
 ?>
