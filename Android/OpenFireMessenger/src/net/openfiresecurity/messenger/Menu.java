@@ -20,6 +20,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import net.openfiresecurity.helper.Constants;
@@ -33,23 +34,30 @@ import org.jetbrains.annotations.Nullable;
 public class Menu extends Activity implements View.OnClickListener {
 
     private Button bExit, bUpdate, bDebug, bRegister, bLogin;
+    private EditText etUserMenu, etPassMenu;
     private DownloadManager mgr;
     private Request req;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        //Download Manager
         mgr = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+        //Buttons
         bExit = (Button) findViewById(R.id.bExit);
         bUpdate = (Button) findViewById(R.id.bUpdate);
         bDebug = (Button) findViewById(R.id.bDebug);
         bRegister = (Button) findViewById(R.id.bMenuSignUp);
         bLogin = (Button) findViewById(R.id.bMenuLogin);
+        //Button OnClickListeners
         bExit.setOnClickListener(this);
         bUpdate.setOnClickListener(this);
         bDebug.setOnClickListener(this);
         bRegister.setOnClickListener(this);
         bLogin.setOnClickListener(this);
+        //Edit Texts
+        etUserMenu = (EditText)findViewById(R.id.etUserNameLogin);
+        etPassMenu = (EditText)findViewById(R.id.etPasswordLogin);
 
         @NotNull BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override
