@@ -10,28 +10,28 @@ import android.net.NetworkInfo;
 
 public class ConnectionDetector {
 
-	private final Context _context;
+    private final Context _context;
 
-	public ConnectionDetector(Context context) {
-		_context = context;
-	}
+    public ConnectionDetector(Context context) {
+        _context = context;
+    }
 
-	/**
-	 * Checking for all possible internet providers
-	 */
-	public boolean isConnectingToInternet() {
+    /**
+     * Checking for all possible internet providers
+     */
+    public boolean isConnectingToInternet() {
 
-		ConnectivityManager connectivity = (ConnectivityManager) _context
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivity = (ConnectivityManager) _context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
 
-		NetworkInfo[] info = connectivity.getAllNetworkInfo();
-		if (info != null) {
-			for (NetworkInfo element : info) {
-				if (element.getState() == NetworkInfo.State.CONNECTED) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
+        NetworkInfo[] info = connectivity.getAllNetworkInfo();
+        if (info != null) {
+            for (NetworkInfo element : info) {
+                if (element.getState() == NetworkInfo.State.CONNECTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

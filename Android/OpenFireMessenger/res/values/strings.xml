@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- ~ Copyright (c) 2013. Alexander Martinz. -->
+<?xml version="1.0" encoding="utf-8"?><!-- ~ Copyright (c) 2013. Alexander Martinz. -->
 
 <resources>
 
@@ -57,5 +56,12 @@
     <string name="prefs_title_general_animation">Use Animation</string>
 
     <!-- Preferences End -->
+
+    <!--  Strings for possible PreferenceActivity Back/Next buttons -->
+    <string name="back_button_label">Back</string>
+    <string name="next_button_label">Next</string>
+
+    <!-- Optional button to Skip a PreferenceActivity [CHAR LIMIT=20] -->
+    <string name="skip_button_label">Skip</string>
 
 </resources>

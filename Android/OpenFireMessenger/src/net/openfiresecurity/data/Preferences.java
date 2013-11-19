@@ -4,30 +4,27 @@
 
 package net.openfiresecurity.data;
 
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.preference.PreferenceFragment;
+
 import net.openfiresecurity.messenger.R;
 
-import org.holoeverywhere.preference.PreferenceFragment;
+public class Preferences extends FragmentActivity {
 
-import android.os.Bundle;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getSupportFragmentManager().beginTransaction()
+                .add(new PrefFragment(), "PrefFragment").commit();
+    }
 
-import com.actionbarsherlock.app.SherlockPreferenceActivity;
+    public static class PrefFragment extends PreferenceFragment {
 
-public class Preferences extends SherlockPreferenceActivity {
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.prefs_inner);
-		// getSupportFragmentManager().beginTransaction()
-		// .add(new PrefFragment(), "PrefFragment").commit();
-	}
-
-	public static class PrefFragment extends PreferenceFragment {
-
-		@Override
-		public void onCreate(Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
-			addPreferencesFromResource(R.xml.prefs_inner);
-		}
-	}
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.prefs_inner);
+        }
+    }
 }

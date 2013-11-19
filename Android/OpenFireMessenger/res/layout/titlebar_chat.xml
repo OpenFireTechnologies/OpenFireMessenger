@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/listview_gradient_two"
-                android:orientation="horizontal">
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_margin="10dp"
+    android:background="@drawable/listview_gradient_two"
+    android:orientation="horizontal">
 
     <TextView
-            android:id="@+id/tvChatUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="10dp"
-            android:text="Please select an User!"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#B0B0B0"/>
+        android:id="@+id/tvChatUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:text="Please select an User!"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#B0B0B0" />
 
 </RelativeLayout>

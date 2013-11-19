@@ -3,43 +3,43 @@
 
     <item android:state_focused="true" android:state_pressed="true">
         <shape>
-            <solid android:color="#FF8000"/>
+            <solid android:color="#FF8000" />
 
-            <stroke android:width="2.3dp" android:color="#FF8000"/>
+            <stroke android:width="2.3dp" android:color="#FF8000" />
 
-            <corners android:radius="20dp"/>
+            <corners android:radius="20dp" />
         </shape>
     </item>
     <item android:state_focused="false" android:state_pressed="true">
         <shape>
-            <solid android:color="#FF8000"/>
+            <solid android:color="#FF8000" />
 
-            <stroke android:width="2.3dp" android:color="#FF8000"/>
+            <stroke android:width="2.3dp" android:color="#FF8000" />
 
-            <corners android:radius="20dp"/>
+            <corners android:radius="20dp" />
         </shape>
     </item>
     <item android:state_focused="true" android:state_pressed="false">
         <shape>
-            <solid android:color="#FFFFFF"/>
+            <solid android:color="#FFFFFF" />
 
-            <stroke android:width="2.3dp" android:color="#FF8000"/>
+            <stroke android:width="2.3dp" android:color="#FF8000" />
 
-            <corners android:radius="20dp"/>
+            <corners android:radius="20dp" />
         </shape>
     </item>
     <item android:state_focused="false" android:state_pressed="false">
         <shape>
-            <gradient android:angle="270" android:centerColor="#FFFFFF" android:endColor="#FFFFFF" android:startColor="#F2F2F2"/>
+            <gradient android:angle="270" android:centerColor="#FFFFFF" android:endColor="#FFFFFF" android:startColor="#F2F2F2" />
 
-            <stroke android:width="0.7dp" android:color="#BDBDBD"/>
+            <stroke android:width="0.7dp" android:color="#BDBDBD" />
 
-            <corners android:radius="20dp"/>
+            <corners android:radius="20dp" />
         </shape>
     </item>
     <item android:state_enabled="true">
         <shape>
-            <padding android:bottom="8dp" android:left="8dp" android:right="8dp" android:top="8dp"/>
+            <padding android:bottom="8dp" android:left="8dp" android:right="8dp" android:top="8dp" />
         </shape>
     </item>
 

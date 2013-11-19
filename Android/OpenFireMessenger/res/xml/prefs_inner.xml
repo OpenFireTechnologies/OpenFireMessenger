@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceScreen android:title="@string/prefs_cat_general" >
+    <PreferenceScreen android:title="@string/prefs_cat_general">
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="showChangelog"
@@ -13,14 +13,14 @@
             android:summary="@string/prefs_summary_update"
             android:title="@string/prefs_title_update" />
     </PreferenceScreen>
-    <PreferenceScreen android:title="@string/prefs_cat_general_appearance" >
+    <PreferenceScreen android:title="@string/prefs_cat_general_appearance">
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="useAnimation"
             android:title="@string/prefs_title_general_animation" />
     </PreferenceScreen>
-    <PreferenceScreen android:title="@string/prefs_cat_chatsettings" >
-        <PreferenceCategory android:title="@string/prefs_cat_chatappearance" >
+    <PreferenceScreen android:title="@string/prefs_cat_chatsettings">
+        <PreferenceCategory android:title="@string/prefs_cat_chatappearance">
             <ListPreference
                 android:defaultValue="Lato"
                 android:entries="@array/chat_fonts_array"
@@ -29,7 +29,7 @@
                 android:summary="@string/prefs_summary_chatfonts"
                 android:title="@string/prefs_title_chatfonts" />
         </PreferenceCategory>
-        <PreferenceCategory android:title="@string/prefs_cat_chatcolor" >
+        <PreferenceCategory android:title="@string/prefs_cat_chatcolor">
             <ListPreference
                 android:defaultValue="green"
                 android:entries="@array/chat_drawable_array"
@@ -43,10 +43,9 @@
                 android:key="chatDrawableReceiver"
                 android:title="@string/left" />
         </PreferenceCategory>
-        <PreferenceCategory android:title="@string/prefs_cat_extra" >
-        </PreferenceCategory>
+        <PreferenceCategory android:title="@string/prefs_cat_extra"></PreferenceCategory>
     </PreferenceScreen>
-    <PreferenceScreen android:title="@string/prefs_cat_notifications" >
+    <PreferenceScreen android:title="@string/prefs_cat_notifications">
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="notificationSound"

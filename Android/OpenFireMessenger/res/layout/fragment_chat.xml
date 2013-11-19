@@ -1,36 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/fragment_chat"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+    android:id="@+id/fragment_chat"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <include
-            android:id="@+id/includeChat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            layout="@layout/titlebar_chat"/>
+        android:id="@+id/includeChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        layout="@layout/titlebar_chat" />
 
     <include
-            android:id="@+id/includeInput"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            layout="@layout/inputfield_chat"/>
+        android:id="@+id/includeInput"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        layout="@layout/inputfield_chat" />
 
     <ListView
-            android:id="@+id/lvChatMessages"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/includeInput"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/includeChat"
-            android:background="@drawable/listview_gradient_one"
-            android:stackFromBottom="true"
-            android:transcriptMode="alwaysScroll">
-    </ListView>
+        android:id="@+id/lvChatMessages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/includeInput"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/includeChat"
+        android:background="@drawable/listview_gradient_one"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll"></ListView>
 
 </RelativeLayout>
